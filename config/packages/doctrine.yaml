@@ -4,13 +4,13 @@ doctrine:
 
         # IMPORTANT: You MUST configure your db driver and server version,
         # either here or in the DATABASE_URL env var (see .env file)
-        #driver: 'mysql'
-        #server_version: '5.7'
+        driver: 'postgresql'
+        server_version: '11'
 
         # Only needed for MySQL (ignored otherwise)
-        charset: utf8mb4
-        default_table_options:
-            collate: utf8mb4_unicode_ci
+#        charset: utf8mb4
+#        default_table_options:
+#            collate: utf8mb4_unicode_ci
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware

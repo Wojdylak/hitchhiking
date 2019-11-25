@@ -22,7 +22,6 @@
 /.idea/
 /logs/
 
-
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/

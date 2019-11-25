@@ -1,0 +1,31 @@
+version: '2'
+services:
+    database:
+        container_name: praca_database
+        image: postgres:11
+        environment:
+            - POSTGRES_USER=wojdylak
+            - POSTGRES_PASSWORD=password
+        ports:
+            - '8021:5432'
+    php:
+        container_name: praca_php
+        build: docker/php-fpm
+        ports:
+            - '8022:9000'
+        volumes:
+            - ./:/var/www/symfony:cached
+            - ./logs/symfony:/var/www/symfony/var/logs:cached
+        links:
+            - database
+    nginx:
+        container_name: praca_nginx
+        build: docker/nginx
+        ports:
+            - '8020:80'
+        links:
+            - php
+        volumes_from:
+            - php
+        volumes:
+            - ./logs/nginx/:/var/log/nginx:cached
