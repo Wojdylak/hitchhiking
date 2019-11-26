@@ -1,3 +1,13 @@
-controllers:
-    resource: ../../src/Controller/
-    type: annotation
+#controllers:
+#    resource: ../../src/Controller/
+#    type: annotation
+
+controllers_web:
+    prefix: '/admin'
+    name_prefix: 'admin_'
+    resource: '../src/Controller/Web/'
+
+controllers_api:
+    prefix: '/api'
+    name_prefix: 'api_'
+    resource: '../src/Controller/Api/'

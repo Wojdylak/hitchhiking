@@ -1,22 +1,45 @@
 security:
-    # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
+    encoders:
+        App\Entity\User:
+            algorithm: auto
+
+    role_hierarchy:
+        ROLE_API:         ROLE_USER
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: ROLE_ADMIN
+
+
     providers:
-        in_memory: { memory: null }
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
+
+        admin_dashboard:
+            pattern: ^/admin
+            anonymous: true
+            form_login:
+                login_path: admin_login
+                check_path: admin_login
+                username_parameter: _email
+                default_target_path: admin_dashboard
+                always_use_default_target_path: true
+                csrf_token_generator: security.csrf.token_manager
+
+            logout:
+                path: admin_logout
+                target: admin_login
+
         main:
             anonymous: true
 
-            # activate different ways to authenticate
-            # https://symfony.com/doc/current/security.html#firewalls-authentication
 
-            # https://symfony.com/doc/current/security/impersonating_user.html
-            # switch_user: true
-
-    # Easy way to control access for large sections of your site
-    # Note: Only the *first* access control that matches will be used
     access_control:
+        - { path: ^/admin/login$, role: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/admin, role: ROLE_ADMIN }
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }

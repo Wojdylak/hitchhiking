@@ -1,0 +1,27 @@
+<nav class="navbar navbar-expand navbar-dark bg-primary flex-column flex-md-row bd-navbar mb-5">
+    <div class="navbar-nav-scroll">
+        <ul class="navbar-nav bd-navbar-nav flex-row">
+            {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ path('admin_dashboard') }}">Panel admina</a>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+
+    <ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+        {% if is_granted("IS_AUTHENTICATED_REMEMBERED") %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin_logout') }}">Wyloguj się</a>
+            </li>
+        {% else %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('admin_login') }}">Zaloguj się </a>
+            </li>
+        {% endif %}
+    </ul>
+
+</nav>
+
+
+
