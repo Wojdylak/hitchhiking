@@ -32,3 +32,7 @@ yarn-error.log
 ###> lexik/jwt-authentication-bundle ###
 /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+
+/public/uploads/*
+!/public/uploads/default_profile.jpg
+!/public/uploads/default_notice.jpg
