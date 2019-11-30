@@ -4,6 +4,7 @@
 namespace App\DTO\Request;
 
 
+use App\Component\Validator\Constraint as AppAssert;
 use Symfony\Component\Validator\Constraints as Assert;
 
 class UserDTO
@@ -12,7 +13,7 @@ class UserDTO
      * @var string
      * @Assert\NotBlank()
      * @Assert\Email()
-     * @Assert\Unique()
+     * @AppAssert\UniqueEmail()
      */
     private $email;
 
