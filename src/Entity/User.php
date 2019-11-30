@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Entity\Traits\IsActiveTrait;
+use App\Entity\Traits\TimestampsTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -9,9 +11,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ORM\Table(name="`user`")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface
 {
+    use IsActiveTrait;
+    use TimestampsTrait;
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
@@ -25,6 +31,11 @@ class User implements UserInterface
      * @Assert\Unique(message="Email is not unique")
      */
     private $email;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Piofile", mappedBy="user")
+     */
+    private $profile;
 
     /**
      * @ORM\Column(type="json")
@@ -51,6 +62,24 @@ class User implements UserInterface
     {
         $this->email = $email;
 
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProfile()
+    {
+        return $this->profile;
+    }
+
+    /**
+     * @param mixed $profile
+     * @return User
+     */
+    public function setProfile($profile)
+    {
+        $this->profile = $profile;
         return $this;
     }
 
