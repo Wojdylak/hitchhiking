@@ -33,7 +33,7 @@ class User implements UserInterface
     private $email;
 
     /**
-     * @ORM\OneToOne(targetEntity="Piofile", mappedBy="user")
+     * @ORM\OneToOne(targetEntity="Profile", mappedBy="user", cascade={"persist", "remove"})
      */
     private $profile;
 

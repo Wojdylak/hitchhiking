@@ -23,7 +23,7 @@ class Picture
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="User")
+     * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
      */
     private $owner;
@@ -39,6 +39,11 @@ class Picture
      * @Assert\NotBlank()
      */
     private $path;
+
+    /**
+     * @ORM\Column(name="is_default", type="boolean", nullable=false, unique=false)
+     */
+    private $isDefault = true;
 
     /**
      * @return mixed
@@ -99,6 +104,24 @@ class Picture
     public function setPath($path)
     {
         $this->path = $path;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isDefault(): bool
+    {
+        return $this->isDefault;
+    }
+
+    /**
+     * @param bool $isDefault
+     * @return Picture
+     */
+    public function setIsDefault(bool $isDefault): Picture
+    {
+        $this->isDefault = $isDefault;
         return $this;
     }
 }

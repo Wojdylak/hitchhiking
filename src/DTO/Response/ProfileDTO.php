@@ -37,7 +37,7 @@ class ProfileDTO
     private $picturePath;
 
     /**
-     * @var string
+     * @var string|null
      */
     private $description;
 
@@ -150,18 +150,18 @@ class ProfileDTO
     }
 
     /**
-     * @return string
+     * @return string|null
      */
-    public function getDescription(): string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
 
     /**
-     * @param string $description
+     * @param string|null $description
      * @return ProfileDTO
      */
-    public function setDescription(string $description): ProfileDTO
+    public function setDescription(?string $description): ProfileDTO
     {
         $this->description = $description;
         return $this;

@@ -4,6 +4,8 @@
 namespace App\Service;
 
 
+use App\Entity\Picture;
+use App\Entity\Profile;
 use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Criteria;
@@ -23,7 +25,6 @@ class UserService
     public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository)
     {
         $this->entityManager = $entityManager;
-        $this->userRepository = $userRepository;
     }
 
     /**
@@ -50,6 +51,23 @@ class UserService
      */
     public function create(User $user)
     {
+        $picture = new Picture();
+        $picture
+            ->setOwner($user)
+            ->setFilename('default_profile.jpg')
+            ->setPath('/uploads/default_profile.jpg');
+
+        $profile = new Profile();
+        $profile
+            ->setUser($user)
+            ->setFirstName('none')
+            ->setLastName('none')
+            ->setPicture($picture);
+
+        $user->setProfile($profile);
+
+        $this->entityManager->persist($picture);
+        $this->entityManager->persist($profile);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
 

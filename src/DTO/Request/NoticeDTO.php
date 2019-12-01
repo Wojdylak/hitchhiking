@@ -38,7 +38,7 @@ class NoticeDTO
      * @var \DateTime
      * @Assert\Date()
      * @Assert\GreaterThanOrEqual(value="today", message="Past")
-     * @Assert\Expression("this.getEndDate >= This.getStartDate()", message="Wrong date")
+     * @Assert\Expression("this.getEndDate() >= this.getStartDate()", message="Wrong date")
      */
     private $endDate;
 

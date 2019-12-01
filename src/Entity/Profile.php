@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\Entity\Traits\IsActiveTrait;
 use App\Entity\Traits\TimestampsTrait;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -14,7 +13,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Profile
 {
-    use IsActiveTrait;
     use TimestampsTrait;
 
     /**
@@ -25,7 +23,7 @@ class Profile
     private $id;
 
     /**
-     * @ORM\OneToOne(targetEntity="User", inversedBy="profile")
+     * @ORM\OneToOne(targetEntity="User", inversedBy="profile", cascade={"persist", "remove"})
      */
     private $user;
 
@@ -42,7 +40,7 @@ class Profile
     private $lastName;
 
     /**
-     * @ORM\OneToOne(targetEntity="Picture")
+     * @ORM\OneToOne(targetEntity="Picture", cascade={"persist", "remove"})
      */
     private $picture;
 
@@ -50,6 +48,11 @@ class Profile
      * @ORM\Column(type="text", nullable=true)
      */
     private $description;
+
+    /**
+     * @ORM\Column(name="is_completed", type="boolean", nullable=false, unique=false)
+     */
+    private $isCompleted = false;
 
     /**
      * @return mixed
@@ -146,6 +149,24 @@ class Profile
     public function setDescription($description)
     {
         $this->description = $description;
+        return $this;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCompleted(): bool
+    {
+        return $this->isCompleted;
+    }
+
+    /**
+     * @param bool $isCompleted
+     * @return Profile
+     */
+    public function setIsCompleted(bool $isCompleted): Profile
+    {
+        $this->isCompleted = $isCompleted;
         return $this;
     }
 }

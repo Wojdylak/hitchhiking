@@ -69,13 +69,16 @@ class PictureService
      */
     public function update(Picture $picture, UploadedFile $file)
     {
-        if (false === in_array($picture->getFilename(), ['default_profile.jpg', 'default_notice.jpg'])) {
+        if (false === $picture->isDefault()) {
             $this->fileUploader->remove($picture->getFilename());
         }
         $filename = $this->fileUploader->upload($file);
 
-        $picture->setFilename($filename);
-        $picture->setPath('/uploads/' . $filename);
+        $picture
+            ->setFilename($filename)
+            ->setPath('/uploads/' . $filename)
+            ->setIsDefault(false)
+        ;
 
         $this->entityManager->persist($picture);
         $this->entityManager->flush();
@@ -100,8 +103,10 @@ class PictureService
     {
         $this->fileUploader->remove($picture->getFilename());
 
-        $picture->setFilename('default_profile.jpg');
-        $picture->setPath('/uploads/default_profile.jpg');
+        $picture
+            ->setFilename('default_profile.jpg')
+            ->setPath('/uploads/default_profile.jpg')
+            ->setIsDefault(true);
 
         $this->entityManager->persist($picture);
         $this->entityManager->flush();
@@ -117,8 +122,10 @@ class PictureService
     {
         $this->fileUploader->remove($picture->getFilename());
 
-        $picture->setFilename('default_notice.jpg');
-        $picture->setPath('/uploads/default_notice.jpg');
+        $picture
+            ->setFilename('default_notice.jpg')
+            ->setPath('/uploads/default_notice.jpg')
+            ->setIsDefault(true);
 
         $this->entityManager->persist($picture);
         $this->entityManager->flush();

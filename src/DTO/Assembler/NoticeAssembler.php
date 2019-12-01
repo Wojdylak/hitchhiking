@@ -47,7 +47,7 @@ class NoticeAssembler
         $dto
             ->setId($notice->getId())
             ->setDescription($notice->getDescription())
-            ->setUser($notice->getUser()->getId)
+            ->setUser($notice->getUser()->getId())
             ->setPictureId($picture->getId())
             ->setPicturePath($picture->getPath())
             ->setType($notice->getType())
