@@ -7,6 +7,7 @@ namespace App\Controller\Api;
 use App\DTO\Assembler\ProfileAssembler;
 use App\DTO\Request\ProfileDTO;
 use App\Entity\Profile;
+use App\Entity\User;
 use App\Service\ProfileService;
 use Doctrine\Common\Collections\Criteria;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -40,7 +41,7 @@ class ProfileController extends AbstractFOSRestController
      */
     public function getAction(Profile $profile)
     {
-        $this->denyAccessUnlessGranted('view', $profile);
+        $this->denyAccessUnlessGranted('view', $this->getUser()->getProfile());
         $data = $this->profileAssembler->writeDTO($profile);
 
         return $this->handleView($this->view($data, Response::HTTP_OK));
@@ -111,7 +112,12 @@ class ProfileController extends AbstractFOSRestController
      */
     public function isCompletedAction()
     {
-        $data = ['is_completed' => $this->getUser()->getProfile()->isCompleted()];
+        $data = [
+            'id' => $this->getUser()->getProfile()->getId(),
+            'userId' => $this->getUser()->getId(),
+            'roles' => $this->getUser()->getRoles(),
+            'isCompleted' => $this->getUser()->getProfile()->isCompleted(),
+        ];
 
         return $this->handleView($this->view($data,Response::HTTP_OK));
     }

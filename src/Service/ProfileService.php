@@ -42,6 +42,7 @@ class ProfileService
     public function getList(Criteria $criteria)
     {
         $criteria->orderBy(['createdAt' => 'ASC']);
+        $criteria->setMaxResults(20);
         return $this->profileRepository->matching($criteria);
     }
 

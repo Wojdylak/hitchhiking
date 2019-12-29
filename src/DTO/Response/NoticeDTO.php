@@ -18,6 +18,21 @@ class NoticeDTO
     /**
      * @var int
      */
+    private $profileId;
+
+    /**
+     * @var string
+     */
+    private $firstName;
+
+    /**
+     * @var string
+     */
+    private $lastName;
+
+    /**
+     * @var int
+     */
     private $pictureId;
 
     /**
@@ -88,6 +103,60 @@ class NoticeDTO
     public function setUser(int $user): NoticeDTO
     {
         $this->user = $user;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getProfileId(): int
+    {
+        return $this->profileId;
+    }
+
+    /**
+     * @param int $profileId
+     * @return NoticeDTO
+     */
+    public function setProfileId(int $profileId): NoticeDTO
+    {
+        $this->profileId = $profileId;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFirstName(): string
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * @param string $firstName
+     * @return NoticeDTO
+     */
+    public function setFirstName(string $firstName): NoticeDTO
+    {
+        $this->firstName = $firstName;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLastName(): string
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * @param string $lastName
+     * @return NoticeDTO
+     */
+    public function setLastName(string $lastName): NoticeDTO
+    {
+        $this->lastName = $lastName;
         return $this;
     }
 

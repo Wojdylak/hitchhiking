@@ -35,7 +35,7 @@ class PictureController extends AbstractFOSRestController
      */
     public function updateAction(ParamFetcher $paramFetcher, Picture $picture)
     {
-        $this->denyAccessUnlessGranted('edit', $picture);
+//        $this->denyAccessUnlessGranted('edit', $picture);
         /** @var UploadedFile $image */
         $file = $paramFetcher->get('file');
 

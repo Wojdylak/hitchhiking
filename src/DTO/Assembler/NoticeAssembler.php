@@ -7,6 +7,7 @@ namespace App\DTO\Assembler;
 use App\DTO\Request\NoticeDTO as RequestNoticeDTO;
 use App\DTO\Response\NoticeDTO as ResponseNoticeDTO;
 use App\Entity\Notice;
+use App\Entity\Profile;
 
 class NoticeAssembler
 {
@@ -43,11 +44,16 @@ class NoticeAssembler
         $dto = new ResponseNoticeDTO();
 
         $picture = $notice->getPicture();
+        /** @var Profile $profile */
+        $profile = $notice->getUser()->getProfile();
 
         $dto
             ->setId($notice->getId())
             ->setDescription($notice->getDescription())
             ->setUser($notice->getUser()->getId())
+            ->setProfileId($profile->getId())
+            ->setFirstName($profile->getFirstName())
+            ->setLastName($profile->getLastName())
             ->setPictureId($picture->getId())
             ->setPicturePath($picture->getPath())
             ->setType($notice->getType())

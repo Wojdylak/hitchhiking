@@ -48,6 +48,8 @@ class NoticeService
      */
     public function getList(Criteria $criteria)
     {
+        $criteria->orderBy(array_merge($criteria->getOrderings(), ['id' => Criteria::ASC]));
+
         return $this->noticeRepository->matching($criteria);
     }
 
