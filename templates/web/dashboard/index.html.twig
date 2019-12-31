@@ -5,23 +5,25 @@
 {% block body %}
 
     <div class="row">
-        <h1>Użytkownicy</h1>
+        <h1>Panel</h1>
 
         <table class="table">
-            <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
-                <th scope="col">Email</th>
+                <td>Użytkownicy</td>
+                <td>{{ numberUser }}</td>
             </tr>
-            </thead>
-            <tbody>
-            {% for user in users %}
-                <tr>
-                    <th>{{ loop.index }}</th>
-                    <td>{{ user.email }}</td>
-                </tr>
-            {% endfor %}
-            </tbody>
+            <tr>
+                <td>Ogłoszenia</td>
+                <td>{{ numberAnnouncementsType.all }}</td>
+            </tr>
+            <tr>
+                <td>Ogłoszenia - towarzysz</td>
+                <td>{{ numberAnnouncementsType.companion }}</td>
+            </tr>
+            <tr>
+                <td>Ogłoszenia - integracja</td>
+                <td>{{ numberAnnouncementsType.integration }}</td>
+            </tr>
         </table>
 
     </div>

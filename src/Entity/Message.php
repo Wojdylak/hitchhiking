@@ -22,14 +22,14 @@ class Message
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id_from", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="user_id_from", referencedColumnName="id", onDelete="CASCADE")
      */
     private $userIdFrom;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="user_id_to", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="user_id_to", referencedColumnName="id", onDelete="CASCADE")
      */
     private $userIdTo;
 

@@ -55,7 +55,7 @@ class MessageController extends AbstractFOSRestController
         $userFrom = $this->getUser();
         $userTo = $this->userRepository->find($messageDTO->getUserIdTo());
         $criteria = new Criteria();
-        $criteria->setMaxResults($offset * 10);
+//        $criteria->setMaxResults($offset * 10);
         $criteria->orderBy(['createdAt' => Criteria::DESC]);
         $criteria->andWhere(
             Criteria::expr()->orX(
@@ -96,8 +96,9 @@ class MessageController extends AbstractFOSRestController
         $users = $this->messageService->getListUserConversation($this->getUser());
         $data = [];
         foreach ($users as $user) {
-            $data[] = $this->messageAssembler->writeUserConversationDTO($user);
+            $data[] = $this->messageAssembler->writeUserConversationDTO($user, $this->getUser());
         }
+        $data = array_values(array_unique($data));
 
         return $this->handleView($this->view($data, Response::HTTP_OK));
     }

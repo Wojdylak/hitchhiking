@@ -7,6 +7,7 @@ namespace App\DTO\Assembler;
 use App\DTO\Request\MessageDTO as RequestMessageDTO;
 use App\DTO\Response\MessageDTO as ResponseMessageDTO;
 use App\DTO\Response\UserConversationDTO;
+use App\DTO\Response\UserMessageDTO;
 use App\Entity\Message;
 use App\Entity\User;
 
@@ -39,35 +40,48 @@ class MessageAssembler
     public function writeDTO(Message $message)
     {
         $dto = new ResponseMessageDTO();
+        $userMessageDTO = new UserMessageDTO();
 
-        /** @var User $userTo */
-        $userTo = $message->getUserIdTo();
+        /** @var User $userFrom */
+        $userFrom = $message->getUserIdFrom();
+        $userMessageDTO
+            ->setId($userFrom->getId())
+            ->setName(sprintf('%s %s',$userFrom->getProfile()->getFirstName(), $userFrom->getProfile()->getLastName()))
+            ->setAvatar('')
+        ;
 
         $dto
             ->setId($message->getId())
-            ->setUserIdFrom($message->getUserIdFrom()->getId())
-            ->setUserIdTo($userTo->getId())
-            ->setUserFirstNameTo($userTo->getProfile()->getFirstName())
-            ->setUserLastNameTo($userTo->getProfile()->getLastName())
+            ->setUser($userMessageDTO)
             ->setText($message->getText())
-            ->setDate($message->getCreatedAt())
+            ->setCreatedAt($message->getCreatedAt())
             ->setIsNew($message->isNew())
+            ->setImage('')
+            ->setVideo('')
         ;
 
         return $dto;
     }
 
-    public function writeUserConversationDTO($message)
+    public function writeUserConversationDTO($message, User $user)
     {
         $dto = new UserConversationDTO();
 
-        $dto
-            ->setUserIdFrom($message['userIdFrom'])
-            ->setUserIdTo($message['userIdTo'])
-            ->setUserFirstNameTo($message['firstName'])
-            ->setUserLastNameTo($message['lastName'])
-            ->setUserPicturePathTo($message['path'])
-        ;
+        if ($message['userIdTo'] === $user->getId()) {
+            $dto
+                ->setId($message['userIdFrom'])
+                ->setFirstName($message['firstNameFrom'])
+                ->setLastName($message['lastNameFrom'])
+                ->setPicturePath($message['pathFrom'])
+            ;
+        } else {
+            $dto
+                ->setId($message['userIdTo'])
+                ->setFirstName($message['firstNameTo'])
+                ->setLastName($message['lastNameTo'])
+                ->setPicturePath($message['pathTo'])
+            ;
+        }
 
         return $dto;
     }

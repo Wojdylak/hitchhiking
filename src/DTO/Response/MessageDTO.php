@@ -3,32 +3,19 @@
 
 namespace App\DTO\Response;
 
+use Symfony\Component\Serializer\Annotation\SerializedName;
+
 class MessageDTO
 {
     /**
      * @var int
      */
-    private $id;
+    private $_id;
 
     /**
-     * @var int
+     * @var UserMessageDTO
      */
-    private $userIdFrom;
-
-    /**
-     * @var int
-     */
-    private $userIdTo;
-
-    /**
-     * @var string
-     */
-    private $userFirstNameTo;
-
-    /**
-     * @var string
-     */
-    private $userLastNameTo;
+    private $user;
 
     /**
      * @var string
@@ -38,7 +25,7 @@ class MessageDTO
     /**
      * @var \DateTime
      */
-    private $date;
+    private $createdAt;
 
     /**
      * @var boolean
@@ -46,11 +33,21 @@ class MessageDTO
     private $isNew;
 
     /**
+     * @var string
+     */
+    private $image;
+
+    /**
+     * @var
+     */
+    private $video;
+
+    /**
      * @return int
      */
     public function getId(): int
     {
-        return $this->id;
+        return $this->_id;
     }
 
     /**
@@ -59,79 +56,25 @@ class MessageDTO
      */
     public function setId(int $id): MessageDTO
     {
-        $this->id = $id;
+        $this->_id = $id;
         return $this;
     }
 
     /**
-     * @return int
+     * @return UserMessageDTO
      */
-    public function getUserIdFrom(): int
+    public function getUser(): UserMessageDTO
     {
-        return $this->userIdFrom;
+        return $this->user;
     }
 
     /**
-     * @param int $userIdFrom
+     * @param UserMessageDTO $user
      * @return MessageDTO
      */
-    public function setUserIdFrom(int $userIdFrom): MessageDTO
+    public function setUser(UserMessageDTO $user): MessageDTO
     {
-        $this->userIdFrom = $userIdFrom;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getUserIdTo(): int
-    {
-        return $this->userIdTo;
-    }
-
-    /**
-     * @param int $userIdTo
-     * @return MessageDTO
-     */
-    public function setUserIdTo(int $userIdTo): MessageDTO
-    {
-        $this->userIdTo = $userIdTo;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserFirstNameTo(): string
-    {
-        return $this->userFirstNameTo;
-    }
-
-    /**
-     * @param string $userFirstNameTo
-     * @return MessageDTO
-     */
-    public function setUserFirstNameTo(string $userFirstNameTo): MessageDTO
-    {
-        $this->userFirstNameTo = $userFirstNameTo;
-        return $this;
-    }
-
-    /**
-     * @return string
-     */
-    public function getUserLastNameTo(): string
-    {
-        return $this->userLastNameTo;
-    }
-
-    /**
-     * @param string $userLastNameTo
-     * @return MessageDTO
-     */
-    public function setUserLastNameTo(string $userLastNameTo): MessageDTO
-    {
-        $this->userLastNameTo = $userLastNameTo;
+        $this->user = $user;
         return $this;
     }
 
@@ -156,18 +99,18 @@ class MessageDTO
     /**
      * @return \DateTime
      */
-    public function getDate(): \DateTime
+    public function getCreatedAt(): \DateTime
     {
-        return $this->date;
+        return $this->createdAt;
     }
 
     /**
-     * @param \DateTime $date
+     * @param \DateTime $createdAt
      * @return MessageDTO
      */
-    public function setDate(\DateTime $date): MessageDTO
+    public function setCreatedAt(\DateTime $createdAt): MessageDTO
     {
-        $this->date = $date;
+        $this->createdAt = $createdAt;
         return $this;
     }
 
@@ -186,6 +129,114 @@ class MessageDTO
     public function setIsNew(bool $isNew): MessageDTO
     {
         $this->isNew = $isNew;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getImage(): string
+    {
+        return $this->image;
+    }
+
+    /**
+     * @param string $image
+     * @return MessageDTO
+     */
+    public function setImage(string $image): MessageDTO
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVideo()
+    {
+        return $this->video;
+    }
+
+    /**
+     * @param mixed $video
+     * @return MessageDTO
+     */
+    public function setVideo($video)
+    {
+        $this->video = $video;
+        return $this;
+    }
+}
+
+class UserMessageDTO
+{
+    /**
+     * @var int
+     */
+    private $_id;
+
+    /**
+     * @var string
+     */
+    private $name;
+
+    /**
+     * @var string
+     */
+    private $avatar;
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->_id;
+    }
+
+    /**
+     * @param int $id
+     * @return UserMessageDTO
+     */
+    public function setId(int $id): UserMessageDTO
+    {
+        $this->_id = $id;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    /**
+     * @param string $name
+     * @return UserMessageDTO
+     */
+    public function setName(string $name): UserMessageDTO
+    {
+        $this->name = $name;
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getAvatar(): string
+    {
+        return $this->avatar;
+    }
+
+    /**
+     * @param string $avatar
+     * @return UserMessageDTO
+     */
+    public function setAvatar(string $avatar): UserMessageDTO
+    {
+        $this->avatar = $avatar;
         return $this;
     }
 }

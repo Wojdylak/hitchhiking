@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Użytkownicy{% endblock %}
+
+{% block body %}
+
+    <div class="row">
+        <h1>Użytkownicy</h1>
+
+        <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Imię</th>
+                <th scope="col">Nazwisko</th>
+                <th scope="col">Email</th>
+                <th scope="col">Opcje</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr>
+                    <th>{{ loop.index }}</th>
+                    <td>{{ user.profile.firstName }}</td>
+                    <td>{{ user.profile.lastName }}</td>
+                    <td>{{ user.email }}</td>
+                    <td><a href="{{ path('admin_user_delete', {id: user.id}) }}">Usuń</a></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+{% endblock %}

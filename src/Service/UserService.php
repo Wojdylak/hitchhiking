@@ -10,6 +10,7 @@ use App\Entity\User;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserService
 {
@@ -21,10 +22,16 @@ class UserService
      * @var UserRepository
      */
     private $userRepository;
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $encoder;
 
-    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository)
+    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository, UserPasswordEncoderInterface $encoder)
     {
         $this->entityManager = $entityManager;
+        $this->userRepository = $userRepository;
+        $this->encoder = $encoder;
     }
 
     /**
@@ -93,5 +100,18 @@ class UserService
     {
         $this->entityManager->remove($user);
         $this->entityManager->flush();
+    }
+
+    public function createSuperUser()
+    {
+        $user = new User();
+        $encoded = $this->encoder->encodePassword($user, 'Testowy1');
+
+        $user->setEmail('superadministrator@admin.pl');
+        $user->setPassword($encoded);
+        $user->setRoles(['ROLE_SUPER_ADMIN']);
+        $user->setIsActive(true);
+
+        $this->create($user);
     }
 }

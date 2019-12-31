@@ -8,115 +8,100 @@ class UserConversationDTO
     /**
      * @var int
      */
-    private $userIdFrom;
-
-    /**
-     * @var int
-     */
-    private $userIdTo;
+    private $id;
 
     /**
      * @var string
      */
-    private $userFirstNameTo;
+    private $firstName;
 
     /**
      * @var string
      */
-    private $userLastNameTo;
+    private $lastName;
 
     /**
      * @var string
      */
-    private $userPicturePathTo;
+    private $picturePath;
 
     /**
      * @return int
      */
-    public function getUserIdFrom(): int
+    public function getId(): int
     {
-        return $this->userIdFrom;
+        return $this->id;
     }
 
     /**
-     * @param int $userIdFrom
+     * @param int $id
      * @return UserConversationDTO
      */
-    public function setUserIdFrom(int $userIdFrom): UserConversationDTO
+    public function setId(int $id): UserConversationDTO
     {
-        $this->userIdFrom = $userIdFrom;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getUserIdTo(): int
-    {
-        return $this->userIdTo;
-    }
-
-    /**
-     * @param int $userIdTo
-     * @return UserConversationDTO
-     */
-    public function setUserIdTo(int $userIdTo): UserConversationDTO
-    {
-        $this->userIdTo = $userIdTo;
+        $this->id = $id;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getUserFirstNameTo(): string
+    public function getFirstName(): string
     {
-        return $this->userFirstNameTo;
+        return $this->firstName;
     }
 
     /**
-     * @param string $userFirstNameTo
+     * @param string $firstName
      * @return UserConversationDTO
      */
-    public function setUserFirstNameTo(string $userFirstNameTo): UserConversationDTO
+    public function setFirstName(string $firstName): UserConversationDTO
     {
-        $this->userFirstNameTo = $userFirstNameTo;
+        $this->firstName = $firstName;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getUserLastNameTo(): string
+    public function getLastName(): string
     {
-        return $this->userLastNameTo;
+        return $this->lastName;
     }
 
     /**
-     * @param string $userLastNameTo
+     * @param string $lastName
      * @return UserConversationDTO
      */
-    public function setUserLastNameTo(string $userLastNameTo): UserConversationDTO
+    public function setLastName(string $lastName): UserConversationDTO
     {
-        $this->userLastNameTo = $userLastNameTo;
+        $this->lastName = $lastName;
         return $this;
     }
 
     /**
      * @return string
      */
-    public function getUserPicturePathTo(): string
+    public function getPicturePath(): string
     {
-        return $this->userPicturePathTo;
+        return $this->picturePath;
     }
 
     /**
-     * @param string $userPicturePathTo
+     * @param string $picturePath
      * @return UserConversationDTO
      */
-    public function setUserPicturePathTo(string $userPicturePathTo): UserConversationDTO
+    public function setPicturePath(string $picturePath): UserConversationDTO
     {
-        $this->userPicturePathTo = $userPicturePathTo;
+        $this->picturePath = $picturePath;
         return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        return strval($this->id);
     }
 }

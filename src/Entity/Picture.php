@@ -23,8 +23,8 @@ class Picture
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false)
+     * @ORM\ManyToOne(targetEntity="User", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="owner_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
      */
     private $owner;
 
