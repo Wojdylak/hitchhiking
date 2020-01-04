@@ -8,4 +8,4 @@ down:
 	docker-compose down --volume
 
 bash:
-	docker exec -it praca_php bash
+	docker exec -it --user www-data praca_php bash
