@@ -71,7 +71,6 @@
             "assets:install %PUBLIC_DIR%": "symfony-cmd"
         },
         "post-install-cmd": [
-            "composer dump-env prod",
             "@auto-scripts"
         ],
         "post-update-cmd": [
