@@ -21,11 +21,6 @@ class MessageDTO
     private $text;
 
     /**
-     * @var int
-     */
-    private $offset;
-
-    /**
      * @return int
      */
     public function getUserIdTo(): int
@@ -58,24 +53,6 @@ class MessageDTO
     public function setText(string $text): MessageDTO
     {
         $this->text = $text;
-        return $this;
-    }
-
-    /**
-     * @return int
-     */
-    public function getOffset(): int
-    {
-        return $this->offset;
-    }
-
-    /**
-     * @param int $offset
-     * @return MessageDTO
-     */
-    public function setOffset(int $offset): MessageDTO
-    {
-        $this->offset = $offset;
         return $this;
     }
 }

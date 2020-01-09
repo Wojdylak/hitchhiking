@@ -63,9 +63,9 @@ class MessageService
      * @param User $user
      * @return mixed
      */
-    public function getListUserConversation(User $user)
+    public function getConversationListUser(User $user)
     {
-        return $this->messageRepository->findListUserConversation($user);
+        return $this->messageRepository->findConversationListUser($user);
     }
 
     /**
@@ -107,6 +107,41 @@ class MessageService
     public function delete(Message $message)
     {
         $this->entityManager->remove($message);
+        $this->entityManager->flush();
+    }
+
+    public function getAmountUnreadMessages(int $userIdFrom, User $userTo)
+    {
+        $userFrom = $this->userRepository->find($userIdFrom);
+        $criteria = new Criteria();
+        $criteria->andWhere(
+            Criteria::expr()->andX(
+                Criteria::expr()->eq('userIdTo', $userTo),
+                Criteria::expr()->eq('userIdFrom', $userFrom),
+                Criteria::expr()->eq('isNew', true)
+            )
+        );
+
+        return $this->messageRepository->matching($criteria)->count();
+    }
+
+    public function setMessagesRead(User $userFrom, User $userTo)
+    {
+        $criteria = new Criteria();
+        $criteria->andWhere(
+            Criteria::expr()->andX(
+                Criteria::expr()->eq('userIdTo', $userFrom),
+                Criteria::expr()->eq('userIdFrom', $userTo)
+            )
+            );
+
+        $messages = $this->messageRepository->matching($criteria);
+
+        foreach ($messages as $message) {
+            $message->setIsNew(false);
+            $this->entityManager->persist($message);
+        }
+
         $this->entityManager->flush();
     }
 }

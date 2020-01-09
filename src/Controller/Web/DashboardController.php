@@ -5,6 +5,7 @@ namespace App\Controller\Web;
 use App\Entity\User;
 use App\Repository\NoticeRepository;
 use App\Repository\UserRepository;
+use App\Service\UserService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -25,12 +26,17 @@ class DashboardController extends AbstractController
      * @var EntityManagerInterface
      */
     private $entityManager;
+    /**
+     * @var UserService
+     */
+    private $userService;
 
-    public function __construct(EntityManagerInterface $entityManager, UserRepository $userRepository, NoticeRepository $noticeRepository)
+    public function __construct(EntityManagerInterface $entityManager, UserService $userService, UserRepository $userRepository, NoticeRepository $noticeRepository)
     {
         $this->userRepository = $userRepository;
         $this->noticeRepository = $noticeRepository;
         $this->entityManager = $entityManager;
+        $this->userService = $userService;
     }
 
     /**
@@ -60,6 +66,24 @@ class DashboardController extends AbstractController
         return $this->render('web/dashboard/show.html.twig', [
             'users' => $users,
         ]);
+    }
+
+    /**
+     * @ParamConverter(name="User", class="App\Entity\User")
+     * @Route("/user/{id}/change_role", name="user_change_role")
+     * @param User $user
+     * @return string
+     */
+    public function changeRoleUser(User $user)
+    {
+        if (in_array('ROLE_ADMIN', $user->getRoles())) {
+            $user->setRoles(['ROLE_API']);
+        } else {
+            $user->setRoles(['ROLE_ADMIN']);
+        }
+        $this->userService->update($user);
+
+        return $this->redirectToRoute('admin_users');
     }
 
     /**

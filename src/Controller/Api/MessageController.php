@@ -4,6 +4,7 @@ namespace App\Controller\Api;
 
 use App\DTO\Assembler\MessageAssembler;
 use App\DTO\Request\MessageDTO;
+use App\Entity\User;
 use App\Repository\UserRepository;
 use App\Service\MessageService;
 use Doctrine\Common\Collections\Criteria;
@@ -37,25 +38,15 @@ class MessageController extends AbstractFOSRestController
     }
 
     /**
-     * @ParamConverter("messageDTO", converter="fos_rest.request_body")
-     * @Rest\Post("/messages/user", name="messages_user")
-     * @param MessageDTO $messageDTO
-     * @param ConstraintViolationListInterface $validationErrors
+     * @ParamConverter("userTo", class="App\Entity\User")
+     * @Rest\Get("/messages/user/{id}", name="messages_user", requirements={"id"="\d+"})
+     * @param User $userTo
      * @return Response
      */
-    public function getAction(MessageDTO $messageDTO, ConstraintViolationListInterface $validationErrors)
+    public function getMessageList(User $userTo)
     {
-        if (count($validationErrors) > 0) {
-            return $this->handleView($this->view(
-                $validationErrors,
-                Response::HTTP_BAD_REQUEST
-            ));
-        }
-        $offset = $messageDTO->getOffset();
         $userFrom = $this->getUser();
-        $userTo = $this->userRepository->find($messageDTO->getUserIdTo());
         $criteria = new Criteria();
-//        $criteria->setMaxResults($offset * 10);
         $criteria->orderBy(['createdAt' => Criteria::DESC]);
         $criteria->andWhere(
             Criteria::expr()->orX(
@@ -70,6 +61,7 @@ class MessageController extends AbstractFOSRestController
             ));
 
         $messages = $this->messageService->getList($criteria);
+        $this->messageService->setMessagesRead($userFrom, $userTo);
         $data = [];
         foreach ($messages as $message) {
             $data[] = $this->messageAssembler->writeDTO($message);
@@ -79,26 +71,17 @@ class MessageController extends AbstractFOSRestController
     }
 
     /**
-     * @ParamConverter("messageDTO", converter="fos_rest.request_body")
-     * @Rest\Post("/messages", name="messages")
-     * @param MessageDTO $messageDTO
-     * @param ConstraintViolationListInterface $validationErrors
+     * @Rest\Get("/conversations", name="conversations")
      * @return Response
      */
-    public function getListAction(MessageDTO $messageDTO, ConstraintViolationListInterface $validationErrors)
+    public function getConversationListAction()
     {
-        if (count($validationErrors) > 0) {
-            return $this->handleView($this->view(
-                $validationErrors,
-                Response::HTTP_BAD_REQUEST
-            ));
-        }
-        $users = $this->messageService->getListUserConversation($this->getUser());
+        $conversations = $this->messageService->getConversationListUser($this->getUser());
         $data = [];
-        foreach ($users as $user) {
-            $data[] = $this->messageAssembler->writeUserConversationDTO($user, $this->getUser());
+        foreach ($conversations as $conversation) {
+            $data[] = $this->messageAssembler->writeConversationDTO($conversation, $this->getUser());
         }
-        $data = array_values(array_unique($data));
+//        $data = array_values(array_unique($data));
 
         return $this->handleView($this->view($data, Response::HTTP_OK));
     }

@@ -3,7 +3,7 @@
 
 namespace App\DTO\Response;
 
-class UserConversationDTO
+class ConversationDTO
 {
     /**
      * @var int
@@ -26,6 +26,11 @@ class UserConversationDTO
     private $picturePath;
 
     /**
+     * @var int
+     */
+    private $amountUnread;
+
+    /**
      * @return int
      */
     public function getId(): int
@@ -35,9 +40,9 @@ class UserConversationDTO
 
     /**
      * @param int $id
-     * @return UserConversationDTO
+     * @return ConversationDTO
      */
-    public function setId(int $id): UserConversationDTO
+    public function setId(int $id): ConversationDTO
     {
         $this->id = $id;
         return $this;
@@ -53,9 +58,9 @@ class UserConversationDTO
 
     /**
      * @param string $firstName
-     * @return UserConversationDTO
+     * @return ConversationDTO
      */
-    public function setFirstName(string $firstName): UserConversationDTO
+    public function setFirstName(string $firstName): ConversationDTO
     {
         $this->firstName = $firstName;
         return $this;
@@ -71,9 +76,9 @@ class UserConversationDTO
 
     /**
      * @param string $lastName
-     * @return UserConversationDTO
+     * @return ConversationDTO
      */
-    public function setLastName(string $lastName): UserConversationDTO
+    public function setLastName(string $lastName): ConversationDTO
     {
         $this->lastName = $lastName;
         return $this;
@@ -89,11 +94,29 @@ class UserConversationDTO
 
     /**
      * @param string $picturePath
-     * @return UserConversationDTO
+     * @return ConversationDTO
      */
-    public function setPicturePath(string $picturePath): UserConversationDTO
+    public function setPicturePath(string $picturePath): ConversationDTO
     {
         $this->picturePath = $picturePath;
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getAmountUnread(): int
+    {
+        return $this->amountUnread;
+    }
+
+    /**
+     * @param int $amountUnread
+     * @return ConversationDTO
+     */
+    public function setAmountUnread(int $amountUnread): ConversationDTO
+    {
+        $this->amountUnread = $amountUnread;
         return $this;
     }
 

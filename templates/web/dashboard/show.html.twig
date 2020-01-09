@@ -14,7 +14,9 @@
                 <th scope="col">Imię</th>
                 <th scope="col">Nazwisko</th>
                 <th scope="col">Email</th>
+                <th scope="col">Rola</th>
                 <th scope="col">Opcje</th>
+                <th scope="col">Usuń</th>
             </tr>
             </thead>
             <tbody>
@@ -24,6 +26,8 @@
                     <td>{{ user.profile.firstName }}</td>
                     <td>{{ user.profile.lastName }}</td>
                     <td>{{ user.email }}</td>
+                    <td>{% if 'ROLE_ADMIN' in user.roles %} Moderator {% else %} Użytkownik {% endif %}</td>
+                    <td><a href="{{ path('admin_user_change_role', {id: user.id}) }}">Zmień uprawnienia</a></td>
                     <td><a href="{{ path('admin_user_delete', {id: user.id}) }}">Usuń</a></td>
                 </tr>
             {% endfor %}

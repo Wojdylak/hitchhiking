@@ -6,13 +6,24 @@ namespace App\DTO\Assembler;
 
 use App\DTO\Request\MessageDTO as RequestMessageDTO;
 use App\DTO\Response\MessageDTO as ResponseMessageDTO;
-use App\DTO\Response\UserConversationDTO;
+use App\DTO\Response\ConversationDTO;
 use App\DTO\Response\UserMessageDTO;
 use App\Entity\Message;
 use App\Entity\User;
+use App\Service\MessageService;
 
 class MessageAssembler
 {
+    /**
+     * @var MessageService
+     */
+    private $messageService;
+
+    public function __construct(MessageService $messageService)
+    {
+        $this->messageService = $messageService;
+    }
+
     public function writeEntity(RequestMessageDTO $messageDTO, Message $message = null)
     {
         if (null === $message) {
@@ -55,7 +66,6 @@ class MessageAssembler
             ->setUser($userMessageDTO)
             ->setText($message->getText())
             ->setCreatedAt($message->getCreatedAt())
-            ->setIsNew($message->isNew())
             ->setImage('')
             ->setVideo('')
         ;
@@ -63,25 +73,19 @@ class MessageAssembler
         return $dto;
     }
 
-    public function writeUserConversationDTO($message, User $user)
+    public function writeConversationDTO($conversation, User $user)
     {
-        $dto = new UserConversationDTO();
+        $dto = new ConversationDTO();
 
-        if ($message['userIdTo'] === $user->getId()) {
-            $dto
-                ->setId($message['userIdFrom'])
-                ->setFirstName($message['firstNameFrom'])
-                ->setLastName($message['lastNameFrom'])
-                ->setPicturePath($message['pathFrom'])
-            ;
-        } else {
-            $dto
-                ->setId($message['userIdTo'])
-                ->setFirstName($message['firstNameTo'])
-                ->setLastName($message['lastNameTo'])
-                ->setPicturePath($message['pathTo'])
-            ;
-        }
+        $amount = $this->messageService->getAmountUnreadMessages($conversation['user_id'], $user);
+
+        $dto
+            ->setId($conversation['user_id'])
+            ->setFirstName($conversation['first_name'])
+            ->setLastName($conversation['last_name'])
+            ->setPicturePath($conversation['path'])
+            ->setAmountUnread($amount)
+        ;
 
         return $dto;
     }
