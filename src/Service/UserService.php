@@ -114,4 +114,11 @@ class UserService
 
         $this->create($user);
     }
+
+    public function changePassword(User $user, string $password)
+    {
+        $encoded = $this->encoder->encodePassword($user, $password);
+        $user->setPassword($encoded);
+        $this->update($user);
+    }
 }

@@ -11,16 +11,16 @@ class UserDTO
 {
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Email()
-     * @AppAssert\UniqueEmail()
+     * @Assert\NotBlank(groups={"new"})
+     * @Assert\Email(groups={"new"})
+     * @AppAssert\UniqueEmail(groups={"new"})
      */
     private $email;
 
     /**
      * @var string
-     * @Assert\NotBlank()
-     * @Assert\Length(min="8")
+     * @Assert\NotBlank(groups={"new", "change"})
+     * @Assert\Length(min="8", groups={"new", "change"})
      */
     private $password;
 

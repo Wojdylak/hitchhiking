@@ -46,7 +46,7 @@ class AuthController extends AbstractFOSRestController
     }
 
     /**
-     * @ParamConverter("userDTO", converter="fos_rest.request_body")
+     * @ParamConverter("userDTO", converter="fos_rest.request_body", options={"validator"={"groups"={"new"}}})
      * @Rest\Post("/register", name="register")
      * @param RequestUserDTO $userDTO
      * @param ConstraintViolationListInterface $validationErrors
@@ -62,5 +62,23 @@ class AuthController extends AbstractFOSRestController
         $user = $this->userService->create($user);
 
         return $this->handleView($this->view($this->JWTService->createNewJWT($user),Response::HTTP_CREATED));
+    }
+
+    /**
+     * @ParamConverter("userDTO", converter="fos_rest.request_body", options={"validator"={"groups"={"change"}}})
+     * @Rest\Post("/change-password", name="change_password")
+     * @param RequestUserDTO $userDTO
+     * @param ConstraintViolationListInterface $validationErrors
+     * @return Response
+     */
+    public function changePassword(RequestUserDTO $userDTO, ConstraintViolationListInterface $validationErrors)
+    {
+        if (count($validationErrors) > 0) {
+            return $this->handleView($this->view($validationErrors, Response::HTTP_BAD_REQUEST));
+        }
+
+        $this->userService->changePassword($this->getUser(), $userDTO->getPassword());
+
+        return $this->handleView($this->view(null, Response::HTTP_OK));
     }
 }
